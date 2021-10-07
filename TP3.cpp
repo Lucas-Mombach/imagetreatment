@@ -126,7 +126,22 @@ int main() {
 		}
     //*************************//
 
+		cout << "Qual o fator de clareamento (1-100) ? ";
+	cin >> fator;
+
+	//*** Clarea a imagem ***//
+	for(i=0;i<altura;i++)
+		for(j=0;j<largura;j++) {
+			valor = (int)imagem[i][j];			//pega o valor do pixel
+			valor += fator;									//escurece o pixel
+			if (valor > 255)									//se der maior que 255
+				valor = 255;										//  deixa branco
+			imagem[i][j] = (unsigned char)valor;	//modifica o pixel
+		}
+    //*************************//
+
 //*** FIM DO TRATAMENTO DA IMAGEM ***//
+
 
 
 
