@@ -14,6 +14,7 @@
 const int MAXALTURA  = 500;				//tamanho maximo aceito (pode ser alterado)
 const int MAXLARGURA = 500;
 
+
 using namespace std;
 
 int main() {
@@ -110,7 +111,7 @@ int main() {
 
 //*** TRATAMENTO DA IMAGEM ***//
 //inicialmente e' nesta parte do codigo que voce vai trabalhar
-
+	
 	int fator;
 	cout << "Qual o fator de escurecimento (1-100) ? ";
 	cin >> fator;
@@ -126,7 +127,7 @@ int main() {
 		}
     //*************************//
 
-		cout << "Qual o fator de clareamento (1-100) ? ";
+	cout << "Qual o fator de clareamento (1-100) ? ";
 	cin >> fator;
 
 	//*** Clarea a imagem ***//
@@ -139,7 +140,32 @@ int main() {
 			imagem[i][j] = (unsigned char)valor;	//modifica o pixel
 		}
     //*************************//
+		char resposta; // aplicar esse efeito?
+		cout << "Deseja tornar a imagem negativa?(S/N)";
+		cin >> resposta;
+		//*** Negativar a imagem ***//
+		if (resposta == 'S')
+		{
+			for ( i = 0; i < altura; i++)
+			{
+				for(j=0;j<largura;j++) {
+				valor = (int)imagem[i][j];	//pega o valor do pixel
 
+				if(valor < 127){						// pois 127+128/2 é a mediana de 255
+				valor = 255-valor; 					// tera a mesma diferença que o valor tem de 0
+			}
+			if(valor > 127)
+			{
+				valor = 0+(255 - valor);
+			}
+			
+			imagem[i][j] = (unsigned char)valor;	//modifica o pixel
+		}
+		}
+		}
+
+		// 
+	
 //*** FIM DO TRATAMENTO DA IMAGEM ***//
 
 
