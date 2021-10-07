@@ -116,7 +116,7 @@ int main() {
 	cout << "Qual o fator de escurecimento (1-100) ? ";
 	cin >> fator;
 
-	//*** Escurece a imagem ***//
+	// Escurece a imagem //
 	for(i=0;i<altura;i++)
 		for(j=0;j<largura;j++) {
 			valor = (int)imagem[i][j];			//pega o valor do pixel
@@ -125,12 +125,12 @@ int main() {
 				valor = 0;										//  deixa preto
 			imagem[i][j] = (unsigned char)valor;	//modifica o pixel
 		}
-    //*************************//
+    ///
 
 	cout << "Qual o fator de clareamento (1-100) ? ";
 	cin >> fator;
 
-	//*** Clarea a imagem ***//
+	// Clarea a imagem //
 	for(i=0;i<altura;i++)
 		for(j=0;j<largura;j++) {
 			valor = (int)imagem[i][j];			//pega o valor do pixel
@@ -139,33 +139,58 @@ int main() {
 				valor = 255;										//  deixa branco
 			imagem[i][j] = (unsigned char)valor;	//modifica o pixel
 		}
-    //*************************//
+    ////
+
 		char resposta; // aplicar esse efeito?
-		cout << "Deseja tornar a imagem negativa?(S/N)";
+		cout << "Deseja tornar a imagem negativa ? (S/N)";
 		cin >> resposta;
-		//*** Negativar a imagem ***//
-		if (resposta == 'S')
+		
+		//*** Negativar a imagem //
+
+		 if (resposta == 'S')
 		{
 			for ( i = 0; i < altura; i++)
-			{
-				for(j=0;j<largura;j++) {
+			
+				for(j=0;j<largura;j++) 
+				{
 				valor = (int)imagem[i][j];	//pega o valor do pixel
 
-				if(valor < 127){						// pois 127+128/2 é a mediana de 255
+				if(valor <= 127){						// pois 127+128/2 é a mediana de 255
 				valor = 255-valor; 					// tera a mesma diferença que o valor tem de 0
-			}
-			if(valor > 127)
-			{
-				valor = 0+(255 - valor);
-			}
+				}
+				if(valor > 127)
+				{
+					valor = 0+(255 - valor);
+				}
 			
 			imagem[i][j] = (unsigned char)valor;	//modifica o pixel
-		}
-		}
+				}
+		
 		}
 
-		// 
+		//*** Imagem espelhada ***/
+
+		cout << "Deseja espelhar a imagem?(S/N)";
+		cin >> resposta;
+		if (resposta == 'S')
+		{
+			for ( int i = 0; i < altura; i++){
+			
+				for( int j = 0;j < largura/2; j++) {
+				valor = (int)imagem[i][j]; //grava os valores de tras para frente
+				imagem[i][j]= imagem[i][largura-1-j];//grava o valor de frente para tras
+				imagem[i][largura-1-j]= (unsigned char)valor; //
+				}
+			}
+		}
+		//*** Imagem Filtro ***/
+		
 	
+
+
+		
+
+
 //*** FIM DO TRATAMENTO DA IMAGEM ***//
 
 
