@@ -11,8 +11,8 @@
 #include <cstring>
 
 
-const int MAXALTURA  = 500;				//tamanho maximo aceito (pode ser alterado)
-const int MAXLARGURA = 500;
+const int MAXALTURA  = 550;				//tamanho maximo aceito (pode ser alterado)
+const int MAXLARGURA = 550;
 
 
 using namespace std;
@@ -142,7 +142,7 @@ int main() {
     ////
 
 		char resposta; // aplicar esse efeito?
-		cout << "Deseja tornar a imagem negativa ? (S/N)";
+		cout << "Deseja tornar a imagem negativa? (S/N) ";
 		cin >> resposta;
 		
 		//*** Negativar a imagem //
@@ -170,20 +170,102 @@ int main() {
 
 		//*** Imagem espelhada ***/
 
-		cout << "Deseja espelhar a imagem?(S/N)";
+		cout << "Deseja espelhar a imagem ? (S/N) ";
 		cin >> resposta;
 		if (resposta == 'S')
 		{
 			for ( int i = 0; i < altura; i++){
 			
 				for( int j = 0;j < largura/2; j++) {
-				valor = (int)imagem[i][j]; //grava os valores de tras para frente
-				imagem[i][j]= imagem[i][largura-1-j];//grava o valor de frente para tras
-				imagem[i][largura-1-j]= (unsigned char)valor; //
+				valor = (int)imagem[i][j]; //salva o valor do primeiro termo
+				imagem[i][j]= imagem[i][largura-1-j];//grava o valor do ultimo termo no primeiro
+				imagem[i][largura-1-j]= (unsigned char)valor; //grava o valor do primeiro termo no ultimo termo
 				}
 			}
 		}
-		//*** Imagem Filtro ***/
+		//*** Filtro de Sobel com o maior numero***/
+		cout << "Deseja aplicar o filtro de Sobel por maior numero na imagem? (S/N) ";
+		cin >> resposta;
+	 	if (resposta == 'S')
+		 {
+				int My[altura][largura];
+				int Mx[altura][largura];
+
+				for (int i = 0; i < altura; i++){
+					for (int j = 0; j < largura; j++){
+				
+						My[i][j] = imagem[i-1][j-1] + (2*imagem[i-1][j])+(imagem[i-1][j+1]) +(-1*imagem[i+1][j+1])+(-2*imagem[i+1][j])+(-1*imagem[i+1][j+1]);//faz as somas de acordo com a matriz Gy
+					}
+			
+				}
+				for (int i = 0; i < altura; i++){
+					for (int j = 0; j < largura; j++){
+						Mx[i][j] = (imagem[i-1][j-1])+(-1*imagem[i-1][j+1])+(2*imagem[i][j-1])+(-2*imagem[i][j+1])+(imagem[i+1][j-1])+(-1*imagem[i+1][j+1]);//faz as somas de acordo com a matriz Gx
+				}
+			
+				}
+				int  maior = 0; //para guardar o maior de Mx e My
+				for (int i = 0; i < altura; i++){
+					for (int j = 0; j < largura; j++)
+					{
+						maior = 0;
+
+						if (Mx[i][j]>My[i][j])
+						{
+							maior = Mx[i][j];
+						}
+						if (Mx[i][j]>My[i][j])
+						{
+						maior = My[i][j];
+						}
+
+						imagem[i][j] = (unsigned char) maior;
+					}
+			
+		}
+		 }
+		 
+		//*** Filtro de Sobel com a media ***/
+		cout << "Deseja aplicar o filtro de Sobel por media na imagem? (S/N) ";
+		cin >> resposta;
+	 	if (resposta == 'S')
+		 {
+				int My[altura][largura];
+				int Mx[altura][largura];
+
+				for (int i = 0; i < altura; i++){
+					for (int j = 0; j < largura; j++){
+				
+						My[i][j] = imagem[i-1][j-1] + (2*imagem[i-1][j])+(imagem[i-1][j+1]) +(-1*imagem[i+1][j+1])+(-2*imagem[i+1][j])+(-1*imagem[i+1][j+1]);//faz as somas de acordo com a matriz Gy
+					}
+			
+				}
+				for (int i = 0; i < altura; i++){
+					for (int j = 0; j < largura; j++){
+						Mx[i][j] = (imagem[i-1][j-1])+(-1*imagem[i-1][j+1])+(2*imagem[i][j-1])+(-2*imagem[i][j+1])+(imagem[i+1][j-1])+(-1*imagem[i+1][j+1]);//faz as somas de acordo com a matriz Gx
+				}
+			
+				}
+				int  media = 0; //para calcular a media de Mx e My
+				for (int i = 0; i < altura; i++){
+					for (int j = 0; j < largura; j++)
+					{
+						media = (Mx[i][j] + My[i][j]) / 2;
+
+						if (media < 0)
+						{
+							media = 0;
+						}
+						if (media > 255)
+						{
+						media = 255;
+						}
+
+						imagem[i][j] = (unsigned char) media;
+					}
+			
+		}
+		 }
 		
 	
 
